@@ -1,0 +1,18 @@
+subdomain: wheelstv
+rooms:
+- The Office
+- The Bar
+api_key: e78eee8cea851ddda3caca637e861ccbfc9d585d
+bot_name: wheelbot
+
+qc:
+    base_dir: /Volumes/VideoRaid/Exported items/
+    product_editor:
+    - 1onONE:     Nick
+    - Top 200:    Kipp
+    - POV:        Leo
+    qc_steps:
+    - 1_Technical_:       George
+    - 2_Visual_:          Leo
+    - 3_Creative_:        Jim
+    - 4_Final Review_:    Collin
