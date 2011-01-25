@@ -10,7 +10,7 @@ module CampfireBot
       @handlers[pattern] = action
     end
     
-    def load_handlers
+    def load_handlers      
       
       hear /how/i do
         @room.speak "Better than you, meatbag"

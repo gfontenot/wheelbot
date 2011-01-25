@@ -11,7 +11,7 @@ require "json"
 require "#{BOT_ROOT}/lib/room"
 require "#{BOT_ROOT}/lib/message"
 require "#{BOT_ROOT}/lib/handlers"
-require"#{BOT_ROOT}/lib/campsite"
+require "#{BOT_ROOT}/lib/campsite"
 
 
 module CampfireBot

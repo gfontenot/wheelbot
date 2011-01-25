@@ -1,0 +1,6 @@
+subdomain: subdomain
+rooms:
+- The Office
+- The Bar
+api_key: <API_KEY_HERE>
+bot_name: <Bot name here, used for the regex to grab messages to it>
