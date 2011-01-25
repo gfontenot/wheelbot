@@ -37,9 +37,7 @@ module Campfire
           msg = JSON.parse(item)
           unless msg["user_id"] == @campsite.me["id"]
             if /^#{@config["bot_name"]}:/i.match(msg["body"])
-              CampfireBot::Message.new(msg["body"], self, handlers)
-            # elsif /ni!/i.match(msg)
-            #   @room.speak("Do you demand a shrubbery?")
+              perform_action(msg["body"], handlers)
             end
           end
         end
@@ -51,6 +49,14 @@ module Campfire
         stream.on_max_reconnects do |timeout, retries|
           puts "Tried #{retries} times to connect."
           exit
+        end
+      end
+    end
+  
+    def perform_action(msg, handlers)
+      handlers.each do |pattern, action|
+        if pattern.match(msg)
+          action.call($~)
         end
       end
     end
