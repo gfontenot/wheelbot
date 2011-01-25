@@ -1,3 +1,5 @@
+BOT_ROOT = File.join(File.dirname(__FILE__), "..")
+
 
 # required for the bot to run
 require "rubygems"
@@ -52,3 +54,5 @@ end
 def bot
   CampfireBot::Bot.new
 end
+
+bot.run
