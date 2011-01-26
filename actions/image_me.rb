@@ -22,6 +22,6 @@ class Image_Me < CampfireBot::Action
 
     images = result["responseData"]["results"]
     
-    speak images[rand(images.length)]["unescapedUrl"]
+    speak "#{images[rand(images.length)]["unescapedUrl"]}#.png"
   end
 end
