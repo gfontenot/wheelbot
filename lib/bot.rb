@@ -19,12 +19,9 @@ module CampfireBot
   class Bot
     def initialize
       @config = YAML::load(File.read("#{BOT_ROOT}/config.yml"))
-      
-      load_handlers
-      
     end
     
-    def load_handlers
+    def load_handlers(room)
       actions = Dir.entries("#{BOT_ROOT}/actions").delete_if {|action| /^\./.match(action)}
       action_classes = []
       # load the source
@@ -35,7 +32,7 @@ module CampfireBot
     
       # and instantiate
       action_classes.each do |action_class|
-        Kernel.const_get(action_class).new
+        Kernel.const_get(action_class).new(room)
       end
     
       @handlers =  Action.handlers
@@ -49,6 +46,9 @@ module CampfireBot
         
         puts "Joining #{room_name}"
         room = Campfire::Room.new(room_name, @config, campsite)
+        
+        load_handlers(room)
+        
         room.join
         Thread.new do
           begin
