@@ -4,15 +4,14 @@ module CampfireBot
     @handlers = {}
     # @room = nil
     
+    def initialize(room)
+      @room = room
+    end
+    
+    
     class << self
       attr_reader :handlers
       attr_reader :room
-      
-      
-      def initialize(room)
-        @room = room
-      end
-      
       
       def speak msg
         @room.speak msg
