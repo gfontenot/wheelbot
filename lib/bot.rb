@@ -29,13 +29,15 @@ module CampfireBot
         load "#{BOT_ROOT}/actions/#{action}"
         action_classes.push(action.chomp(".rb"))
       end
-    
+      
+      room_actions = Action.new(room)
+      
       # and instantiate
       action_classes.each do |action_class|
         Kernel.const_get(action_class).new(room)
       end
     
-      @handlers =  Action.handlers
+      @handlers =  room_actions.handlers
     
     end
     

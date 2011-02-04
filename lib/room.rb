@@ -7,6 +7,7 @@ module Campfire
   
     def initialize(room_name, config, campsite)
       @campsite = campsite
+      @name = room_name
       @room_id = campsite.room_id_from_name(room_name)
       @token = config["api_key"]
       @config = config
@@ -14,7 +15,11 @@ module Campfire
       Room.base_uri    "https://#{config['subdomain']}.campfirenow.com"
       Room.basic_auth  "#{@token}", "x"
     end
-  
+    
+    def to_s
+      return @name
+    end
+    
     def join
       post 'join'
     end

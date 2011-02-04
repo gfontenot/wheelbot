@@ -2,10 +2,8 @@ require 'hpricot'
 
 class Weather < CampfireBot::Action
   
-  def register
-    hear /weather in ([a-z]+|[0-9]{5})\s?(?:for\s)?([a-zA-Z]+)?/i do |matchdata|
-      weather_info_for(matchdata[1], matchdata[2])
-    end
+  hear /weather in ([a-z]+|[0-9]{5})\s?(?:for\s)?([a-zA-Z]+)?/i do |matchdata|
+    weather_info_for(matchdata[1], matchdata[2])
   end
   
   # search Google Weather for weather info about a place
