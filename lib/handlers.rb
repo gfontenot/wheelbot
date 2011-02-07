@@ -21,7 +21,6 @@ module CampfireBot
         @handlers[action_class] = {:pattern => action.hear, :instance => action }
       end
       
-      puts @handlers
       return @handlers
       
     end 
