@@ -59,9 +59,10 @@ module Campfire
     end
   
     def perform_action(msg, handlers)
-      handlers.each do |pattern, action|
+      handlers.each_pair do |key, action|
+        pattern = action[:pattern]
         if pattern.match(msg)
-          action.call($~)
+          action[:instance].perform ($~)
         end
       end
     end

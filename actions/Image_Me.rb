@@ -1,19 +1,23 @@
-class Image_Me < CampfireBot::Action
-  def initialize
-    
-    super
-    
-    hear /image me (.+)/i do |matchdata|
+class Image_Me
   
-      # puts @room.to_s
-      # puts "test"
-      # speak "test"
+  def initialize room
+    @room = room
+  end
   
-      get_image(matchdata[1])
-    end
-    
-    
-    
+  def hear
+    /image me (.+)/i
+  end
+  
+  def perform matchdata
+    get_image(matchdata[1])
+  end
+  
+  def desc_short
+    "image me (QUERY)"
+  end
+  
+  def desc_long
+    "Perform a google image search for the query and return a random result"
   end
 
   def get_image(query)
@@ -25,6 +29,7 @@ class Image_Me < CampfireBot::Action
 
     images = result["responseData"]["results"]
   
-    speak "#{images[rand(images.length)]["unescapedUrl"]}#.png"
+    @room.speak "#{images[rand(images.length)]["unescapedUrl"]}#.png"
   end
+  
 end

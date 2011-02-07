@@ -11,33 +11,13 @@ require "json"
 # local classes required for the bot to run
 require "#{BOT_ROOT}/lib/room"
 require "#{BOT_ROOT}/lib/campsite"
-require "#{BOT_ROOT}/lib/action"
+require "#{BOT_ROOT}/lib/handlers"
 
 
 module CampfireBot
   class Bot
     def initialize
       @config = YAML::load(File.read("#{BOT_ROOT}/config.yml"))
-    end
-    
-    def load_handlers(room)
-      actions = Dir.entries("#{BOT_ROOT}/actions").delete_if {|action| /^\./.match(action)}
-      action_classes = []
-      # load the source
-      actions.each do |action|
-        load "#{BOT_ROOT}/actions/#{action}"
-        action_classes.push(action.chomp(".rb"))
-      end
-      
-      room_actions = Action.new(room)
-      
-      # and instantiate
-      action_classes.each do |action_class|
-        Kernel.const_get(action_class).new(room)
-      end
-    
-      @handlers =  room_actions.handlers
-    
     end
     
     def run
@@ -48,7 +28,8 @@ module CampfireBot
         puts "Joining #{room_name}"
         room = Campfire::Room.new(room_name, @config, campsite)
         
-        load_handlers(room)
+        handlers = Handlers.new(room)
+        @handlers = handlers.load_handlers 
         
         room.join
         Thread.new do

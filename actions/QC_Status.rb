@@ -1,7 +1,22 @@
-class QC_Status < CampfireBot::Action
+class QC_Status
   
-  hear /qc status/i do
+  def initialize room
+    @room = room
+  end
+  
+  
+  def hear
+    /qc status/i
+  end
+  
+  def perform
     check_qc_status
+  end
+  
+  def desc_short
+  end
+  
+  def desc_long
   end
   
   def check_qc_status
@@ -17,7 +32,7 @@ class QC_Status < CampfireBot::Action
       begin
         count = Dir.entries("#{qc_dir}0_Editor Review_#{editor}").delete_if {|file| /^\./.match(file)}.size
         unless count == 0
-          speak "#{editor} has #{count} #{product} ready to pass to QC"
+          @room.speak "#{editor} has #{count} #{product} ready to pass to QC"
           found_files = true
         end
 
@@ -26,7 +41,7 @@ class QC_Status < CampfireBot::Action
 
 
           unless count == 0
-            speak "#{person} has #{count} #{product} videos to QC"
+            @room.speak "#{person} has #{count} #{product} videos to QC"
             found_files = true
           end
         end
@@ -36,7 +51,7 @@ class QC_Status < CampfireBot::Action
     end
     
     unless found_files
-      speak "QC status is clean"
+      @room.speak "QC status is clean"
     end
     
   end

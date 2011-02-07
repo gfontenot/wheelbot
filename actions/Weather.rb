@@ -1,8 +1,16 @@
 require 'hpricot'
 
-class Weather < CampfireBot::Action
+class Weather
   
-  hear /weather in ([a-z]+|[0-9]{5})\s?(?:for\s)?([a-zA-Z]+)?/i do |matchdata|
+  def initialize room
+    @room = room
+  end
+  
+  def hear
+    /weather in ([a-z]+|[0-9]{5})\s?(?:for\s)?([a-zA-Z]+)?/i
+  end
+  
+  def perform matchdata
     weather_info_for(matchdata[1], matchdata[2])
   end
   
@@ -44,7 +52,7 @@ class Weather < CampfireBot::Action
         forcast = "#{condition}, #{temp} F, #{humidity} humidity"
       end
       
-      speak forcast
+      @room.speak forcast
       
     rescue Exception => e
       return "Weather Error: #{e} (You may either misspelled the city, or tried searching for a date more than 3 days from now)"
