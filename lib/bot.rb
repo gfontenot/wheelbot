@@ -10,7 +10,6 @@ require "json"
 
 # local classes required for the bot to run
 require "#{BOT_ROOT}/lib/room"
-require "#{BOT_ROOT}/lib/handlers"
 require "#{BOT_ROOT}/lib/campsite"
 require "#{BOT_ROOT}/lib/action"
 

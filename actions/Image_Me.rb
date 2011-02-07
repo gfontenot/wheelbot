@@ -1,12 +1,19 @@
 class Image_Me < CampfireBot::Action
-
-  hear /image me (.+)/i do |matchdata|
+  def initialize
+    
+    super
+    
+    hear /image me (.+)/i do |matchdata|
   
-    # puts @room.to_s
-    # puts "test"
-    speak "test"
+      # puts @room.to_s
+      # puts "test"
+      # speak "test"
   
-    # get_image(matchdata[1])
+      get_image(matchdata[1])
+    end
+    
+    
+    
   end
 
   def get_image(query)
