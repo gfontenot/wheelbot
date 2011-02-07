@@ -10,6 +10,14 @@ class Vehicle_Stats
   
   def perform matchdata
     vehicle_stats_for(matchdata[1], matchdata[2], matchdata[3])
+  end
+  
+  def desc_short
+    "stats for YEAR MAKE MODEL"
+  end
+  
+  def desc_long
+    "Search Chrome for vehicle provided, and return a list of stats. IN DEVELOPMENT"
   end  
   
   # Look up vehicle stats through chrome

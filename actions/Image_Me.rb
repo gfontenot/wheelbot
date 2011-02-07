@@ -13,11 +13,11 @@ class Image_Me
   end
   
   def desc_short
-    "image me (QUERY)"
+    "image me PHRASE"
   end
   
   def desc_long
-    "Perform a google image search for the query and return a random result"
+    "Perform a google image search for the phrase and return a random result"
   end
 
   def get_image(query)

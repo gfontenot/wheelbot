@@ -59,10 +59,23 @@ module Campfire
     end
   
     def perform_action(msg, handlers)
-      handlers.each_pair do |key, action|
-        pattern = action[:pattern]
-        if pattern.match(msg)
-          action[:instance].perform ($~)
+      
+      if /help/i.match(msg) # Print out the help messages for all the active plugins
+        speak "I listen for the following:"
+        handlers.each_pair do |key, action|
+          if action[:instance].desc_long
+            action_help = "#{action[:instance].desc_short}: #{action[:instance].desc_long}"
+          else
+            action_help = action[:instance].desc_short
+          end
+          speak action_help
+        end
+      else
+        handlers.each_pair do |key, action|
+          pattern = action[:pattern]
+          if pattern.match(msg)
+            action[:instance].perform ($~)
+          end
         end
       end
     end

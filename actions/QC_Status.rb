@@ -14,9 +14,11 @@ class QC_Status
   end
   
   def desc_short
+    "qc status"
   end
   
   def desc_long
+    "Check the QC folders for files that need to be acted upon, and report back."
   end
   
   def check_qc_status

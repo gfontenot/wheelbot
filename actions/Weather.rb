@@ -14,6 +14,14 @@ class Weather
     weather_info_for(matchdata[1], matchdata[2])
   end
   
+  def desc_short
+    "weather in PLACE ((for) TIME)"
+  end
+  
+  def desc_long
+    "Get the weather conditions for the place. If no time is provided, return the current conditions. Optionally provide a date sometime in the next 3 days to return the forcast information for that day. The word 'for' is also optional, and has no bearing on the output."
+  end
+  
   # search Google Weather for weather info about a place
   def weather_info_for(place, date)
     base_url = "http://www.google.com/ig/api?weather="
