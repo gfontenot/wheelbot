@@ -23,7 +23,7 @@ module Campfire
       end
       
       # if we're here, then we didn't find the room specified. Go ahead and abort the whole process, and alert the user.
-      abort "The room named #{room_name} doesn't exist. Either remove it from your config file, or fix the spelling."
+      abort "The room named #{room_name} doesn't exist. Either remove it from your config file, or check the spelling."
     end
   end
 end

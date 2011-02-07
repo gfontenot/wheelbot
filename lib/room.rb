@@ -7,6 +7,7 @@ module Campfire
   
     def initialize(room_name, config, campsite)
       @campsite = campsite
+      @name = room_name
       @room_id = campsite.room_id_from_name(room_name)
       @token = config["api_key"]
       @config = config
@@ -14,7 +15,11 @@ module Campfire
       Room.base_uri    "https://#{config['subdomain']}.campfirenow.com"
       Room.basic_auth  "#{@token}", "x"
     end
-  
+    
+    def to_s
+      return @name
+    end
+    
     def join
       post 'join'
     end
@@ -37,9 +42,7 @@ module Campfire
           msg = JSON.parse(item)
           unless msg["user_id"] == @campsite.me["id"]
             if /^#{@config["bot_name"]}:/i.match(msg["body"])
-              CampfireBot::Message.new(msg["body"], self, handlers)
-            # elsif /ni!/i.match(msg)
-            #   @room.speak("Do you demand a shrubbery?")
+              perform_action(msg["body"], handlers)
             end
           end
         end
@@ -51,6 +54,28 @@ module Campfire
         stream.on_max_reconnects do |timeout, retries|
           puts "Tried #{retries} times to connect."
           exit
+        end
+      end
+    end
+  
+    def perform_action(msg, handlers)
+      
+      if /help/i.match(msg) # Print out the help messages for all the active plugins
+        speak "I listen for the following:"
+        handlers.each_pair do |key, action|
+          if action[:instance].desc_long
+            action_help = "#{action[:instance].desc_short}: #{action[:instance].desc_long}"
+          else
+            action_help = action[:instance].desc_short
+          end
+          speak action_help
+        end
+      else
+        handlers.each_pair do |key, action|
+          pattern = action[:pattern]
+          if pattern.match(msg)
+            action[:instance].perform ($~)
+          end
         end
       end
     end

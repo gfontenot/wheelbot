@@ -1,7 +1,8 @@
+BOT_ROOT = File.join(File.dirname(__FILE__), "..")
+
 
 # required for the bot to run
 require "rubygems"
-require 'hpricot'
 require "json"
 require "twitter/json_stream"
 require "httparty"
@@ -9,9 +10,8 @@ require "json"
 
 # local classes required for the bot to run
 require "#{BOT_ROOT}/lib/room"
-require "#{BOT_ROOT}/lib/message"
+require "#{BOT_ROOT}/lib/campsite"
 require "#{BOT_ROOT}/lib/handlers"
-require"#{BOT_ROOT}/lib/campsite"
 
 
 module CampfireBot
@@ -27,11 +27,14 @@ module CampfireBot
         
         puts "Joining #{room_name}"
         room = Campfire::Room.new(room_name, @config, campsite)
+        
+        handlers = Handlers.new(room)
+        @handlers = handlers.load_handlers 
+        
         room.join
-        handlers = CampfireBot::Handlers.new(room, @config).load_handlers
         Thread.new do
           begin
-            room.listen(handlers)
+            room.listen(@handlers)
           rescue Exception => e
             trace = e.backtrace.join("\n")
             abort "Something went wrong! #{e.message}\n #{trace}"
@@ -52,3 +55,5 @@ end
 def bot
   CampfireBot::Bot.new
 end
+
+bot.run
