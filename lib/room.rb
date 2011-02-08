@@ -63,9 +63,9 @@ module Campfire
       if /help/i.match(msg) # Print out the help messages for all the active plugins
         speak "I listen for the following:"
         handlers.each_pair do |key, action|
-          if action[:instance].desc_long
+          if action[:instance].respond_to? "desc_long"
             action_help = "#{action[:instance].desc_short}: #{action[:instance].desc_long}"
-          else
+          elsif action[:instance].respond_to? "desc_short"
             action_help = action[:instance].desc_short
           end
           speak action_help
