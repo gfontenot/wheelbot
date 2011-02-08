@@ -9,7 +9,7 @@ class QC_Status
     /qc status/i
   end
   
-  def perform
+  def perform matchdata
     check_qc_status
   end
   
