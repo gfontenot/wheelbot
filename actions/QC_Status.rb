@@ -22,9 +22,12 @@ class QC_Status
   end
   
   def check_qc_status
-    base_dir = @config["qc"]["base_dir"]
-    product_array = @config["qc"]["product_editor"]
-    qc_array = @config["qc"]["qc_steps"]
+    
+    config = YAML::load(File.read("#{BOT_ROOT}/config.yml"))
+    
+    base_dir = config["qc"]["base_dir"]
+    product_array = config["qc"]["product_editor"]
+    qc_array = config["qc"]["qc_steps"]
     
     found_files = false
     
