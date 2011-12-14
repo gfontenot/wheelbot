@@ -1,8 +1,7 @@
 module CampfireBot
   class Handlers
     
-    def initialize room
-      @room = room
+    def initialize
       @handlers = {}
     end
     
@@ -17,7 +16,7 @@ module CampfireBot
       
       # and instantiate
       action_classes.each do |action_class|
-        action = Kernel.const_get(action_class).new(@room)
+        action = Kernel.const_get(action_class).new()
         @handlers[action_class] = {:pattern => action.hear, :instance => action }
       end
       

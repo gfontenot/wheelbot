@@ -1,16 +1,11 @@
 class QC_Status
   
-  def initialize room
-    @room = room
-  end
-  
-  
   def hear
     /qc status/i
   end
   
-  def perform matchdata
-    check_qc_status
+  def perform room, matchdata
+    check_qc_status room
   end
   
   def desc_short
@@ -21,7 +16,7 @@ class QC_Status
     "Check the QC folders for files that need to be acted upon, and report back."
   end
   
-  def check_qc_status
+  def check_qc_status room
     
     config = YAML::load(File.read("#{BOT_ROOT}/config.yml"))
     
@@ -37,7 +32,7 @@ class QC_Status
       begin
         count = Dir.entries("#{qc_dir}0_Editor Review_#{editor}").delete_if {|file| /^\./.match(file)}.size
         unless count == 0
-          @room.speak "#{editor} has #{count} #{product} ready to pass to QC"
+          room.speak "#{editor} has #{count} #{product} ready to pass to QC"
           found_files = true
         end
 
@@ -46,7 +41,7 @@ class QC_Status
 
 
           unless count == 0
-            @room.speak "#{person} has #{count} #{product} videos to QC"
+            room.speak "#{person} has #{count} #{product} videos to QC"
             found_files = true
           end
         end
@@ -56,7 +51,7 @@ class QC_Status
     end
     
     unless found_files
-      @room.speak "QC status is clean"
+      room.speak "QC status is clean"
     end
     
   end

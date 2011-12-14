@@ -2,16 +2,12 @@ require 'hpricot'
 
 class Weather
   
-  def initialize room
-    @room = room
-  end
-  
   def hear
     /weather in ([a-z]+|[0-9]{5})\s?(?:for\s)?([a-zA-Z]+)?/i
   end
   
-  def perform matchdata
-    weather_info_for(matchdata[1], matchdata[2])
+  def perform room, matchdata
+    weather_info_for(matchdata[1], matchdata[2], room)
   end
   
   def desc_short
@@ -23,7 +19,7 @@ class Weather
   end
   
   # search Google Weather for weather info about a place
-  def weather_info_for(place, date)
+  def weather_info_for(place, date, room)
     base_url = "http://www.google.com/ig/api?weather="
     url = "#{base_url}#{URI.encode(place)}"
     resp = Net::HTTP.get_response(URI.parse(url))
@@ -60,7 +56,7 @@ class Weather
         forcast = "#{condition}, #{temp} F, #{humidity} humidity"
       end
       
-      @room.speak forcast
+      room.speak forcast
       
     rescue Exception => e
       return "Weather Error: #{e} (You may either misspelled the city, or tried searching for a date more than 3 days from now)"
